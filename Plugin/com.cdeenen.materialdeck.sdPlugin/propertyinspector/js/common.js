@@ -1251,6 +1251,7 @@ function setElements(id) {
         selection = settings.save;
         if (selection == undefined) {
             if (system == 'dnd5e') selection = 'str';
+            else if (system == 'helveczia') selection = 'bravery';
             else selection == 'fort';
         }
     }
@@ -1368,6 +1369,18 @@ function getStats(system){
             {value:'Save', name:'Saving Throw Modifier'},
             {value:'Skill', name:'Skill Modifier'}
         ]
+    else if (system == "helveczia")
+        stats = [
+            {value:'HP', name:'HP'},
+            {value:'HPbox', name:'HP (box)'},
+            {value:'AC', name:'Energy AC'},
+            {value:'Init', name:'Initiative'},
+            {value:'Ability', name:'Ability Score'},
+            {value:'AbilityMod', name:'Ability Score Modifier'},
+            {value:'Save', name:'Saving Throw Modifier'},
+            {value:'Skill', name:'Skill Modifier'},
+            {value:'Virtue', name:'Virtue'}
+        ]
     else 
         stats = [
             {value:'HP', name:'HP'},
@@ -1437,6 +1450,12 @@ function getSaves(system){
             {value:'ref',name:'Reflex'},
             {value:'will',name:'Will'},
         ]
+    else if (system == 'helveczia')
+    saves = [
+        {value:'bravery',name:'Bravery'},
+        {value:'deftness',name:'Deftness'},
+        {value:'temptation',name:'Temptation'},
+    ]
     else if (system == 'wfrp4e')
         ; //pass
     else if (system == 'dnd5e')
@@ -1834,6 +1853,38 @@ function getSkills(system){
             {value: 'sur', name: 'Survival'}
         ]
     }
+    else if (system == 'helveczia') {
+        skills = [
+            {value: 'Traps', name: 'Traps'},
+            {value: 'Ride', name: 'Ride'},
+            {value: 'Climb', name: 'Climb'},
+            {value: 'Alchemy', name: 'Alchemy'},
+            {value: 'Cryptography', name: 'Cryptography'},
+            {value: 'Pick Pockets', name: 'Pick Pockets'},
+            {value: 'Perform', name: 'Perform'},
+            {value: 'Astrology', name: 'Astrology'},
+            {value: 'Open Locks', name: 'Open Locks'},
+            {value: 'Animal Training', name: 'Animal Training'},
+            {value: 'Sneak', name: 'Sneak'},
+            {value: 'Gambling', name: 'Gambling'},
+            {value: 'Listen', name: 'Listen'},
+            {value: 'Escape Artist', name: 'Escape Artist'},
+            {value: 'Spot', name: 'Spot'},
+            {value: 'Brew Poison (Magical)', name: 'Brew Poison (Magical)'},
+            {value: 'Appraise', name: 'Appraise'},
+            {value: 'Balance', name: 'Balance'},
+            {value: 'Occultism', name: 'Occultism'},
+            {value: 'Swim', name: 'Swim'},
+            {value: 'Brew Poison', name: 'Brew Poison'},
+            {value: 'Medicine', name: 'Medicine'},
+            {value: 'Cryptography (Magical)', name: 'Cryptography (Magical)'},
+            {value: 'Jump', name: 'Jump'},
+            {value: 'Disguise', name: 'Disguise'},
+            {value: 'Forgery', name: 'Forgery'},
+            {value: 'Sail', name: 'Sail'},
+            {value: 'Forestry', name: 'Forestry'},
+        ]
+    }
     else  //default/dnd5e
         skills = [
             {value:'acr', name:'Acrobatics'},
@@ -1881,7 +1932,7 @@ function getRolls(system){
             {value:'initiative', name:'Initiative'},
             {value:'perception', name:'Perception'}
         ]
-        else if (system == 'forbidden-lands')
+    else if (system == 'forbidden-lands')
         rolls = [
             {value:'rollFood', name:'Roll Food'},
             {value:'rollWater', name:'Roll Water'},
@@ -1892,6 +1943,13 @@ function getRolls(system){
         ]
     else if (system == 'demonlord')
         rolls = []
+    else if (system == 'helveczia') 
+        rolls = [
+            {value:'initiative', name:'Initiative'},
+            {value:'cc', name:'Combat Check'},
+            {value:'melee', name:'Melee'},
+            {value:'ranged', name:'Ranged'}
+        ]
     else 
         rolls = [
             {value:'initiative', name:'Initiative'},
@@ -1964,6 +2022,12 @@ function getItemTypes(system){
             {value:'enhancers', name:'Equipment Enhancers'},
             {value:'augmentation', name:'Augmentations'}
         ]
+    else if (system == 'helveczia')
+    types = [
+        {value:'weapon', name:'Weapons'},
+        {value:'armour', name:'Armour'},
+        {value:'possession', name:'Possession'},
+    ]
     else 
         types = [
             {value:'weapon', name:'Weapons'},
@@ -1992,7 +2056,9 @@ function getWeaponRollModes(system){
         types = []
     else if (system == 'forbidden-lands')
         types = []
-    if (system == 'sfrpg')
+    else if (system == 'sfrpg')
+        types = []
+    else if (system == 'helveczia')
         types = []
     else    //dnd5e
         types = [
@@ -2052,7 +2118,7 @@ function getFeatureTypes(system){
     else if (system == "forbidden-lands") {
         types = []
     }
-    else if (system == 'sfrpg')
+    else if (system == 'sfrpg') {
         types = [
             {value:'class', name:'Class'},
             {value:'race', name:'Race'},
@@ -2063,6 +2129,14 @@ function getFeatureTypes(system){
             {value:'passiveFeat', name:'Passive Feats'},
             {value:'actorResource', name:'Actor Resources'}
         ]
+    }
+    else if (system == "helveczia") {
+        types = [
+            {value: 'skill', name: 'Skills'},
+            {value: 'class', name: 'Class'},
+            {value: 'people', name: 'Peoples'}
+        ]
+    }
     else 
         types = [
             {value:'class', name:'Class'},
@@ -2092,17 +2166,25 @@ function getSpellTypes(system) {
         ]
     else if (system == 'forbidden-lands') 
         types = []
-    else if (system == 'sfrpg') 
-    types = [
-        {value:'innate', name:'Innate Spellcasting'},
-        {value:'0', name:'0th Level'},
-        {value:'1', name:'1st Level'},
-        {value:'2', name:'2nd Level'},
-        {value:'3', name:'3rd Level'},
-        {value:'4', name:'4th Level'},
-        {value:'5', name:'5th Level'},
-        {value:'6', name:'6th Level'}
-    ]
+    else if (system == 'sfrpg') {
+        types = [
+            {value:'innate', name:'Innate Spellcasting'},
+            {value:'0', name:'0th Level'},
+            {value:'1', name:'1st Level'},
+            {value:'2', name:'2nd Level'},
+            {value:'3', name:'3rd Level'},
+            {value:'4', name:'4th Level'},
+            {value:'5', name:'5th Level'},
+            {value:'6', name:'6th Level'}
+        ]
+    }
+    else if (system == 'helveczia') {
+        types = [
+            {value:'1', name:'1st Level'},
+            {value:'2', name:'2nd Level'},
+            {value:'3', name:'3rd Level'},
+        ]
+    }
     else
         types = [
             {value:'0', name:'Cantrip'},
